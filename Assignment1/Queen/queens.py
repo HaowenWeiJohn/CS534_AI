@@ -71,12 +71,21 @@ def chessBoard(queens, boardSize):
     plt.show()
 
 
-def generateQueens(queenNum, boardSize):
-    q = random.sample(list(range(boardSize * boardSize)), queenNum)
-    queens = []
-    for i in q:
-        queens.append(queen(i, boardSize))
-    return queens
+def generateQueens(queenNum,boardSize,nPlusOne):
+    queens=[]
+    for column in range(boardSize):
+        row=random.randint(0,boardSize-1)
+        queens.append(queen(row,column))
+    if nPlusOne:
+        n=boardSize//8
+        for _ in range(n):
+         column=random.randint(0,boardSize-1)
+         row=random.randint(0,boardSize-2)
+         if row>=queens[column].row:
+             row=row+1
+         queens.append(queen(row,column))
+    return(queens)
+
 
 
 def attacking(queens):
@@ -96,7 +105,8 @@ if __name__ == "__main__":
 
     boardSize = 8
     queenNum = 8
-    queens = generateQueens(queenNum, boardSize)
+    nPlusOne = True
+    queens = generateQueens(queenNum, boardSize,nPlusOne)
     attack = attacking(queens)
     print(attack)
     chessBoard(queens, boardSize)
