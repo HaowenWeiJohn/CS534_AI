@@ -5,27 +5,37 @@ import copy
 def AStarSearch(initBoard,boardSize):
     states=[]
     attack=queens.attacking(initBoard)
+    PreviousBoard=[initBoard,attack,0]
+    closedStates=[]
     node=0
     while 1:
         for i in range(boardSize):
-            y=initBoard[i].row
+            y=PreviousBoard[0][i].row
             for j in range(boardSize):
                 if y==j:
                     continue
-                states.append([copy.deepcopy(initBoard),0,0])
+                states.append(copy.deepcopy(PreviousBoard))
                 states[-1][0][i].up(j-y)
                 attack=queens.attacking(states[-1][0])
                 cost=abs(j-y)*states[-1][0][i].weight**2
                 states[-1][1]=attack
-                states[-1][2]=cost
+                states[-1][2]=cost+PreviousBoard[2]
                 if attack==0:
                     return states[-1]
-        allAttack=[a[1] for a in states]
-        minAttack=min(allAttack)
-        node=allAttack.index(minAttack)
-        print(minAttack)
-        queens.chessBoard(states[node][0],boardSize)
-        initBoard=states[node][0]
+        allCost=[_[1]*100+_[2] for _ in states]
+        while 1:
+            minCost=min(allCost)
+            node=allCost.index(minCost)
+            x=list(_.row for _ in states[node][0])
+            if x in closedStates:
+                states.pop(node)
+                allCost.pop(node)
+            else:
+                closedStates.append(x)
+                break
+        print(minCost)
+        #queens.chessBoard(states[node][0],boardSize)
+        PreviousBoard=states[node]
         states.pop(node)
 
 
@@ -38,5 +48,5 @@ if __name__=="__main__":
     print(attack)
     queens.chessBoard(initBoard,boardSize)
     result=AStarSearch(initBoard,boardSize)
-    print(result[1])
+    print(result[2])
     queens.chessBoard(result[0],boardSize)
