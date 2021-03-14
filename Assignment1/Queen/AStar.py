@@ -1,4 +1,4 @@
-import queens
+from Assignment1.Queen import queens
 import copy
 
 

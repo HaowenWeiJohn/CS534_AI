@@ -1,103 +1,113 @@
 import random
 import matplotlib.pyplot as plt
 import numpy as np
-class queen():
-    def __init__(self,row,column,boardSize):
-        self.row=row
-        self.column=column
-        self.diagonalR=self.row-self.column+boardSize-1
-        self.diagonalL=self.column+self.row
-        self.weight=random.randint(1,9)
-    def up(self,step):
-        self.row=self.row+step
-        self.diagonalR=self.diagonalR+step
-        self.diagonalL=self.diagonalL+step
-    def down(self,step):
-        self.row=self.row-step
-        self.diagonalR=self.diagonalR-step
-        self.diagonalL=self.diagonalL-step
-    def left(self,step):
-        self.column=self.column-step
-        self.diagonalR=self.diagonalR+step
-        self.diagonalL=self.diagonalL-step
-    def right(self,step):
-        self.column=self.column+step
-        self.diagonalR=self.diagonalR-step
-        self.diagonalL=self.diagonalL+step
-    def upleft(self,step):
-        self.row=self.row+step
-        self.column=self.column-step
-        self.diagonalR=self.diagonalR+step*2
-    def upright(self,step):
-        self.row=self.row+step
-        self.column=self.column+step
-        self.diagonalL=self.diagonalL+step*2
-    def downleft(self,step):
-        self.row=self.row-step
-        self.column=self.column-step
-        self.diagonalL=self.diagonalL-step*2
-    def downright(self,step):
-        self.row=self.row-step
-        self.column=self.column+step
-        self.diagonalR=self.diagonalR-step*2
-   
-    
 
-def chessBoard(queens,boardSize):
-    fig,ax=plt.subplots(figsize=(6,6))
+
+class queen():
+    def __init__(self, row, column, boardSize):
+        self.row = row
+        self.column = column
+        self.diagonalR = self.row - self.column + boardSize - 1
+        self.diagonalL = self.column + self.row
+        self.weight = random.randint(1, 9)
+        self.boardSize = boardSize
+
+    def up(self, step):
+        self.row = self.row + step
+        self.diagonalR = self.diagonalR + step
+        self.diagonalL = self.diagonalL + step
+
+    def down(self, step):
+        self.row = self.row - step
+        self.diagonalR = self.diagonalR - step
+        self.diagonalL = self.diagonalL - step
+
+    def left(self, step):
+        self.column = self.column - step
+        self.diagonalR = self.diagonalR + step
+        self.diagonalL = self.diagonalL - step
+
+    def right(self, step):
+        self.column = self.column + step
+        self.diagonalR = self.diagonalR - step
+        self.diagonalL = self.diagonalL + step
+
+    def upleft(self, step):
+        self.row = self.row + step
+        self.column = self.column - step
+        self.diagonalR = self.diagonalR + step * 2
+
+    def upright(self, step):
+        self.row = self.row + step
+        self.column = self.column + step
+        self.diagonalL = self.diagonalL + step * 2
+
+    def downleft(self, step):
+        self.row = self.row - step
+        self.column = self.column - step
+        self.diagonalL = self.diagonalL - step * 2
+
+    def downright(self, step):
+        self.row = self.row - step
+        self.column = self.column + step
+        self.diagonalR = self.diagonalR - step * 2
+
+
+def chessBoard(queens, boardSize):
+    fig, ax = plt.subplots(figsize=(6, 6))
     plt.axis([-1, boardSize, -1, boardSize])
-    y=list(i.row for i in queens)
-    x=list(i.column for i in queens)
-    w=list(i.weight for i in queens)
-    ax.scatter(x,y,s=20)
+    y = list(i.row for i in queens)
+    x = list(i.column for i in queens)
+    w = list(i.weight for i in queens)
+    ax.scatter(x, y, s=20)
     for i in range(len(queens)):
-        ax.annotate([i,w[i]],[x[i],y[i]])
-    grids=np.linspace(-0.5,boardSize-0.5,boardSize+1)
+        ax.annotate([i, w[i]], [x[i], y[i]])
+    grids = np.linspace(-0.5, boardSize - 0.5, boardSize + 1)
     for i in grids:
-        plt.axvline(x=i,lw=0.2)
-        plt.axhline(y=i,lw=0.2)
+        plt.axvline(x=i, lw=0.2)
+        plt.axhline(y=i, lw=0.2)
     plt.show()
 
-def generateQueens(boardSize,nPlusOne):
-    queens=[]
+
+def generateQueens(boardSize, nPlusOne):
+    queens = []
     for column in range(boardSize):
-        row=random.randint(0,boardSize-1)
-        queens.append(queen(row,column,boardSize))
+        row = random.randint(0, boardSize - 1)
+        queens.append(queen(row, column, boardSize))
     if nPlusOne:
-        n=boardSize//8
+        n = boardSize // 8
         for _ in range(n):
-            occupied=True
+            occupied = True
             while occupied:
-                column=random.randint(0,boardSize-1)
-                row=random.randint(0,boardSize-1)
+                column = random.randint(0, boardSize - 1)
+                row = random.randint(0, boardSize - 1)
                 for i in queens:
                     if i.row == row and i.column == column:
                         continue
-                occupied=False
-            queens.append(queen(row,column,boardSize))
-    return(queens)
+                occupied = False
+            queens.append(queen(row, column, boardSize))
+    return (queens)
+
 
 def attacking(queens):
     queens2 = list(queens)
-    attack=0
-    while len(queens2)>1:
-        attack_row=list(i.row for i in queens2).count(queens2[0].row)-1
-        attack_column=list(i.column for i in queens2).count(queens2[0].column)-1
-        attack_diagonalL=list(i.diagonalL for i in queens2).count(queens2[0].diagonalL)-1
-        attack_diagonalR=list(i.diagonalR for i in queens2).count(queens2[0].diagonalR)-1
-        attack=attack+attack_row+attack_column+attack_diagonalL+attack_diagonalR
+    attack = 0
+    while len(queens2) > 1:
+        attack_row = list(i.row for i in queens2).count(queens2[0].row) - 1
+        attack_column = list(i.column for i in queens2).count(queens2[0].column) - 1
+        attack_diagonalL = list(i.diagonalL for i in queens2).count(queens2[0].diagonalL) - 1
+        attack_diagonalR = list(i.diagonalR for i in queens2).count(queens2[0].diagonalR) - 1
+        attack = attack + attack_row + attack_column + attack_diagonalL + attack_diagonalR
         queens2.pop(0)
-    return(attack)
+    return (attack)
 
-if __name__=="__main__":
-    boardSize=16
-    nPlusOne=True
-    queens=generateQueens(boardSize,nPlusOne)
-    chessBoard(queens,boardSize)
+
+if __name__ == "__main__":
+    boardSize = 16
+    nPlusOne = True
+    queens = generateQueens(boardSize, nPlusOne)
+    chessBoard(queens, boardSize)
     queens[0].up(-2)
-    attack=attacking(queens)
+    attack = attacking(queens)
     print(attack)
-    chessBoard(queens,boardSize)
-
-
-
+    chessBoard(queens, boardSize)
