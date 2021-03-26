@@ -68,17 +68,20 @@ def hillCliming(Queens, temperature=10):
     # for round in range(0,10):
 
     init_T = temperature
-    time = 0
+    Time = 0
     initialState = copy.deepcopy(Queens)
 
     previousTotalCost = initialStateCost
+    loss_function.append(previousTotalCost) if len(loss_function) == 0 or loss_function[-1
+    ] > previousTotalCost else loss_function.append(loss_function[-1])
+    time_function.append(time.time()-start_time)
     previousTotalMoveCost = 0
     previousState = copy.deepcopy(initialState)
     cost_record = []
 
     while True:
         cost_record.append(previousTotalCost)
-        T = np.exp(-time / 2) * temperature
+        T = np.exp(-Time / 2) * temperature
 
         boards, moveCost, stateCost = movesForAllQueens(previousState)
         totalCost = stateCost + previousTotalMoveCost
@@ -103,49 +106,33 @@ def hillCliming(Queens, temperature=10):
         previousTotalMoveCost += thisMoveCost
         previousTotalCost = previousTotalMoveCost + thisStateCost
 
-        time = time + 1
+        Time = Time + 1
+        loss_function.append(previousTotalCost) if len(loss_function) == 0 or loss_function[-1
+        ] > previousTotalCost else loss_function.append(loss_function[-1])
+        time_function.append(time.time() - start_time)
         # queens.chessBoard(thisBoard, boardSize)
 
 
-def hillClimingMultiStart(boardSize=8, init_temperature=20, round=10):
+def hillClimingMultiStart(boardSize=16, init_temperature=20, round=10):
     Queens = queens.generateQueens(boardSize=boardSize, nPlusOne=True)
 
-    time_cost_list = []
-    total_cost = []
-    start_time = time.time()
     for i in range(0, round):
-        queens.chessBoard(Queens, boardSize=boardSize)
+        # queens.chessBoard(Queens, boardSize=boardSize)
 
         loss_function, finalState = hillCliming(Queens=Queens, temperature=init_temperature)
-        print(loss_function)
-        # plt.plot(loss_function)
-        time_cost = time.time() - start_time
-        time_cost_list.append(time_cost)
-        total_cost.append(loss_function[-1]) if len(total_cost) == 0 or total_cost[-1] > loss_function[
-            -1] else total_cost.append(total_cost[-1])
-        # queens.chessBoard(finalState, boardSize=boardSize)
-    plt.grid()
-    plt.xlabel('moves')
-    plt.ylabel('total cost')
-    plt.show()
+        # print(loss_function)
 
-    plt.plot(time_cost_list, total_cost)
-    plt.grid()
-    plt.xlabel('time')
-    plt.ylabel('total cost')
-    plt.show()
 
 if __name__ == '__main__':
-    # running_time = []
-    # board_size = [8, 16, 24, 32, 40, 48]
-    # for board in board_size:
-    #     start_time = time.time()
-    hillClimingMultiStart(boardSize=16, init_temperature=30, round=20)
-#     time_cost = time.time() - start_time
-#     running_time.append(time_cost)
-#
-# plt.plot(running_time)
-# plt.grid()
-# plt.xlabel('boardSize: [8, 16, 24, 32, 40, 48]')
-# plt.ylabel('time cost')
-# plt.show()
+
+    loss_function = []
+    time_function = []
+    start_time = time.time()
+
+    hillClimingMultiStart(boardSize=8, init_temperature=30, round=200)
+
+    plt.plot(time_function, loss_function)
+    plt.grid()
+    plt.xlabel('time(s)')
+    plt.ylabel('total cost')
+    plt.show()
