@@ -1,7 +1,7 @@
 
 import random
+import copy
 
-random.seed(2021)
 import abc
 
 
@@ -219,6 +219,18 @@ class RolloutPlayer(Player):
 
     def playCard(self, trick):
         pass  # This is just a placeholder, remove when real code goes here
+
+
+    def continueOneRound(self):
+        score_cost = 0
+
+        return  score_cost
+
+    def simulateAllHnad(self):
+        bestHand = 'T'
+
+        return bestHand
+
 
 
 class MctsPlayer(Player):

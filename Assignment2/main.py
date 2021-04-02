@@ -6,6 +6,9 @@ if __name__ == '__main__':
     playahs.append(game.RandomPlayer("Foo"))
     playahs.append(game.GrabAndDuckPlayer("Bar"))
     playahs.append(game.RandomPlayer("Baz"))
-    game = game.Game(playahs)
+    Game = game.Game(playahs)
     
-    game.play()
+    Game.play()
+
+    a = game.RandomPlayer("Foo")
+    print(type(a).__name__)
