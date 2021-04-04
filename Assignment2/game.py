@@ -235,7 +235,7 @@ class GrabAndDuckPlayer(Player):
 
 
 class RolloutPlayer(Player):
-    def __init__(self, name, total_playerNum=3, time_limit=1):
+    def __init__(self, name, total_playerNum=3, time_limit=4):
         super().__init__(name)
 
         self.trick = None
@@ -444,7 +444,7 @@ class Game():  # Main class
                 self.players[lead_player].score += score
                 if self.players[lead_player].score >= self.WIN_SCORE:
                     print(self.players[lead_player].name, "won with", self.players[lead_player].score, "points!")
-                    return
+                    return self.players
 
                     # Keep track of the cards played
                 self.played_cards.extend(trick)

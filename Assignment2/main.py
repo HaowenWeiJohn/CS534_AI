@@ -1,14 +1,18 @@
 from Assignment2 import game
 
+def analysis
+
+
 if __name__ == '__main__':
 
-    playahs = []
-    playahs.append(game.RandomPlayer("Foo"))
-    playahs.append(game.RolloutPlayer("Bar"))
-    playahs.append(game.RandomPlayer("Baz"))
-    Game = game.Game(playahs)
+    players = []
+    players.append(game.RandomPlayer("Foo"))
+    players.append(game.RolloutPlayer("Bar"))
+    players.append(game.GrabAndDuckPlayer("Baz"))
+    Game = game.Game(players)
     
-    Game.play()
+    players_after = Game.play()
 
-    a = game.RandomPlayer("Foo")
-    print(type(a).__name__)
+
+
+
