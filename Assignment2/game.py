@@ -268,13 +268,14 @@ class RolloutPlayer(Player):
 
         start_time = time.time()
         time_cost = 0
+        # counter = 1
         while time_cost < self.time_limit:
             for i in range(0, len(allPossibleHands)):
                 this_gain = self.oneRound(startingTrick=allPossibleHands[i])
                 gain_list[i] += this_gain
-
+                # counter = counter+1
             time_cost = time.time() - start_time
-
+        # print(counter)
         max_index = gain_list.index(max(gain_list))
         hand_to_play = allPossibleHands[max_index]
         self.hand.remove(hand_to_play)
@@ -465,7 +466,7 @@ class Game():  # Main class
             # Check for winner
             if self.players[lead_player].score >= self.WIN_SCORE:
                 print(self.players[lead_player].name, "won with", self.players[lead_player].score, "points!")
-                return
+                return self.players
 
             print("\n* Deal a new hand! *\n")
             # reset the zombie count

@@ -652,7 +652,7 @@ class Game():  # Main class
                 self.players[lead_player].score += score
                 if self.players[lead_player].score >= self.WIN_SCORE:
                     print(self.players[lead_player].name, "won with", self.players[lead_player].score, "points!")
-                    return
+                    return self.players
 
                     # Keep track of the cards played
                 self.played_cards.extend(trick)
@@ -673,7 +673,7 @@ class Game():  # Main class
             # Check for winner
             if self.players[lead_player].score >= self.WIN_SCORE:
                 print(self.players[lead_player].name, "won with", self.players[lead_player].score, "points!")
-                return
+                return self.players
 
             print("\n* Deal a new hand! *\n")
             # reset the zombie count
