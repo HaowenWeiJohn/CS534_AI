@@ -1,6 +1,7 @@
-from Assignment2 import game
+from Assignment2 import game2
 import numpy as np
 import matplotlib.pyplot as plt
+
 
 def analysis():
     thinking_times = [1.5]
@@ -13,12 +14,12 @@ def analysis():
         first = 0
         second = 0
         third = 0
-        for i in range(0,20):
+        for i in range(0, 20):
             players = []
-            players.append(game.GrabAndDuckPlayer("GrabAndDuckPlayer"))
-            players.append(game.RolloutPlayer("RolloutAI", time_limit=thinking_time))
-            players.append(game.RandomPlayer("RandomPlayer"))
-            ThisGame = game.Game(players)
+            players.append(game2.GrabAndDuckPlayer("GrabAndDuckPlayer"))
+            players.append(game2.RolloutPlayer("RolloutAI", time_limit=thinking_time))
+            players.append(game2.RandomPlayer("RandomPlayer"))
+            ThisGame = game2.Game(players)
             players_after = ThisGame.play()
             if players_after[0].score >= 200: first += 1
             if players_after[1].score >= 200: second += 1
